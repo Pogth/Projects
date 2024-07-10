@@ -1,0 +1,199 @@
+
+<html>
+<head>
+    <title>LexiLetter - 6 Letter</title>
+    <link rel="stylesheet" href="styles.css">
+
+</head>
+<body>
+    <div class="navigation-bar">
+        <h1>6-letter LexiLetter - Tries Left: <span id="triesLeft">7</span></h1>
+        <button class="reset-button" onclick="resetGame()">Reset</button>
+    </div>
+    <h1>LexiLetter - 6 Letter Option</h1>
+    <div class="keyboard" id="keyboard">
+        <div class="row">
+            <div class="key" onclick="guessLetter('Q')">Q</div>
+            <div class="key" onclick="guessLetter('W')">W</div>
+            <div class="key" onclick="guessLetter('E')">E</div>
+            <div class="key" onclick="guessLetter('R')">R</div>
+            <div class="key" onclick="guessLetter('T')">T</div>
+            <div class="key" onclick="guessLetter('Y')">Y</div>
+            <div class="key" onclick="guessLetter('U')">U</div>
+            <div class="key" onclick="guessLetter('I')">I</div>
+            <div class="key" onclick="guessLetter('O')">O</div>
+            <div class="key" onclick="guessLetter('P')">P</div>
+        </div>
+        <div class="row">
+            <div class="key" onclick="guessLetter('A')">A</div>
+            <div class="key" onclick="guessLetter('S')">S</div>
+            <div class="key" onclick="guessLetter('D')">D</div>
+            <div class="key" onclick="guessLetter('F')">F</div>
+            <div class="key" onclick="guessLetter('G')">G</div>
+            <div class="key" onclick="guessLetter('H')">H</div>
+            <div class="key" onclick="guessLetter('J')">J</div>
+            <div class="key" onclick="guessLetter('K')">K</div>
+            <div class="key" onclick="guessLetter('L')">L</div>
+        </div>
+        <div class="row">
+            <div class="key" onclick="guessLetter('Z')">Z</div>
+            <div class="key" onclick="guessLetter('X')">X</div>
+            <div class="key" onclick="guessLetter('C')">C</div>
+            <div class="key" onclick="guessLetter('V')">V</div>
+            <div class="key" onclick="guessLetter('B')">B</div>
+            <div class="key" onclick="guessLetter('N')">N</div>
+            <div class="key" onclick="guessLetter('M')">M</div>
+        </div>
+    </div>
+    <div class="guessing-box">
+        Guess: <input type="text" id="guess-input" maxlength="6" size="6" oninput="validateInput()">
+        <br>
+        <br>
+        <button class="reset-button" onclick="submitGuess()">Guess</button>
+    </div>
+    <div class="attempts" id="attempts"></div>
+    <div class="feedback" id="feedback"></div>
+    <button class="reset-button" onclick="goHome()">Home</button>
+    <script>
+        // Define the list of words here
+        const words = ["animal", "basket", "bubble", "butter", "camera", "carpet", "castle", "cheese", "danger", "dragon", "father", "flower", "forest", "guitar", "jungle", "mother", "orange", "pepper", "pillow", "planet", "potato", "rocket", "sailor", "shadow", "spirit", "sunset", "tomato", "turtle", "window", "winter", "course", "system", "school", "family", "market", "police", "policy", "office", "person", "health", "period", "centre", "effect", "action", "moment", "report", "church", "change", "street", "result", "reason", "nature", "member", "figure", "friend", "amount", "series", "future", "labour", "letter", "theory", "growth", "chance", "record", "energy", "income", "scheme", "design", "choice", "couple", "county", "summer", "colour", "season", "garden", "charge", "advice", "doctor", "extent", "access", "region", "degree", "return", "public", "answer", "leader", "appeal", "method", "source", "oxford", "demand", "sector", "status", "safety", "weight", "league", "budget", "review", "minute", "survey", "speech", "effort", "career", "attack", "length", "memory", "impact", "sister", "corner", "damage", "credit", "debate", "supply", "museum", "island", "relief", "target", "coffee", "factor", "battle", "prison", "bridge", "detail", "client", "search", "master", "dinner", "agency", "manner", "favour", "crisis", "prince", "output", "middle", "player", "threat", "notice", "bottom", "profit", "second", "option", "reform", "spring", "estate", "volume", "martin", "branch", "object", "driver", "belief", "murder", "flight", "treaty", "desire", "palace", "engine", "breath", "screen", "silver", "injury", "valley", "should", "become", "change", "appear", "expect", "ensure", "follow", "accept", "remain", "happen", "create", "return", "reduce", "choose", "decide", "forget", "listen", "answer", "enable", "affect", "obtain", "spread", "wonder", "afford", "regard", "assume", "manage", "remove", "prefer", "travel", "attend", "depend", "suffer", "notice", "result", "extend", "report", "arrive", "finish", "secure", "escape", "assess", "repeat", "supply", "reveal", "relate", "retain", "handle", "assist", "recall", "settle", "ignore", "define", "record", "bother", "refuse", "demand", "reckon", "belong", "emerge", "intend", "advise", "defend", "pursue", "resist", "impose", "appeal", "differ", "select", "attack", "expand", "behave", "strike", "remind", "review", "employ", "insist", "switch", "invest", "tackle", "gather", "reject", "inform", "borrow", "comply", "permit", "charge", "commit", "detect", "excuse", "damage", "launch", "direct", "submit", "invite", "divide", "engage", "search", "fulfil", "convey", "market", "thrust", "retire", "adjust", "exceed", "occupy", "stress", "object", "please", "design", "resign", "regret", "offset", "assure", "derive", "access", "favour", "cancel", "oppose", "locate", "repair", "amount", "attach", "absorb", "admire", "combat", "update", "modify", "resume", "render", "double", "assert", "defeat", "wander", "rescue", "export", "induce", "figure", "regain", "devote", "devise", "govern", "expose", "beware", "arrest", "effect", "murder", "freeze", "honour", "revive", "endure", "insert", "evolve", "foster", "reform", "punish", "little", "social", "second", "public", "likely", "common", "single", "former", "recent", "strong", "simple", "modern", "normal", "soviet", "direct", "useful", "german", "future", "senior", "annual", "latter", "active", "middle", "sexual", "actual", "famous", "formal", "proper", "unable", "lovely", "fourth", "female", "mental", "double", "afraid", "bright", "bloody", "narrow", "entire", "severe", "unique", "guilty", "yellow", "golden", "sudden", "global", "silent", "secret", "visual", "wooden", "stupid", "stable", "honest", "slight", "remote", "gentle", "junior", "smooth", "pretty", "fellow", "square", "steady", "bitter", "ethnic", "weekly", "random", "modest", "asleep", "clever", "liable", "mutual", "nearby", "urgent", "superb", "strict", "marine", "retail", "unfair", "hungry", "secure", "subtle", "decent", "bottom", "lesser", "casual", "lonely", "fierce", "verbal", "mature", "absent", "racial", "lively", "mobile", "linear", "orange", "fiscal", "tender", "eighth", "liquid", "sacred", "worthy", "manual", "divine", "intact", "select", "tragic", "inland", "gothic", "tribal", "ironic", "robust", "binary", "scarce", "uneven", "unlike", "latent", "lethal", "gloomy", "filthy", "serial", "tricky", "hollow", "finite", "coarse", "median", "baltic", "savage", "glossy", "racist", "dental", "inward", "foster", "unsure", "feudal", "unpaid", "heroic", "distal", "inside", "upward", "aerial", "triple", "exempt", "facial", "ritual", "faulty", "speedy", "lawful", "floppy", "neural", "shrewd", "lavish", "rectal", "floral", "hectic", "arable", "erotic", "feeble", "sleepy", "innate", "dorsal", "spinal", "dismal", "barren", "meagre", "shabby", "banana", "bumble", "cactus", "dabble", "fluffy", "giggly", "hiccup", "jester", "kaboom", "muppet", "noodle", "pajama", "quirky", "scooby", "tickle", "waffle", "yippee", "zipper", "zoodle", "boogie", "chubby", "doodle", "fizzle", "goofus", "hookey", "jumble", "kookie", "lively", "muddle", "nutmeg", "puddle", "quacky", "razzle", "sizzle", "tootle", "wiggly", "yabber", "zephyr", "zonked", "almost", "biking", "camera", "dazzle", "enigma", "fabled", "gossip", "huddle", "insect", "jigsaw", "kernel", "lagoon", "mumble", "nibble", "oxbow", "plaque", "quench", "rocket", "spruce", "trivia", "unpack", "victor", "whisky", "xenial", "yellow", "zenith"
+]; 
+
+        // Select a random word from the list
+        let secretWord = words[Math.floor(Math.random() * words.length)];
+        secretWord = secretWord.toUpperCase();
+        const attemptsDisplay = document.getElementById('attempts');
+        const feedbackDisplay = document.getElementById('feedback');
+        let attemptsLeft = 7;
+        let attempts = [];
+
+        // Function to validate input in the guess input field
+        function validateInput() {
+            const guessInput = document.getElementById('guess-input');
+            guessInput.value = guessInput.value.toUpperCase().replace(/[^A-Z]/g, '').slice(0, 6);
+        }
+
+        function goHome(){
+            window.location.href = "homepage.html"; 
+        }
+
+        // Function to process a letter guess
+        function guessLetter(letter) {
+            const guessInput = document.getElementById('guess-input');
+            guessInput.value += letter;
+            validateInput();
+        }
+
+        // Function to submit a guess
+        function submitGuess() {
+            const guessInput = document.getElementById('guess-input');
+            const guess = guessInput.value.toUpperCase();
+            if (guess.length !== 6 || !/^[A-Z]+$/.test(guess)) {
+                alert('Please enter a valid 6-letter guess.');
+                return;
+            }
+
+            const feedback = getFeedback(guess);
+            attempts.push({ guess: guess, feedback: feedback });
+            displayAttempts();
+            displayFeedback(feedback);
+            attemptsLeft--;
+
+            document.getElementById('triesLeft').textContent = attemptsLeft;
+
+            if (attemptsLeft === 0) {
+                displayFeedback('Game Over! The word was: ' + secretWord);
+                disableKeyboard();
+                guessInput.disabled = true; // Disable input after game over
+                alert('Game Over! The word was: ' + secretWord); // Display correct answer in pop-up
+            } else if (feedback === 'GGGGGG') {
+                displayFeedback('Congratulations! You guessed the word!');
+                disableKeyboard();
+                guessInput.disabled = true; // Disable input after winning
+                alert('Congratulations! You guessed the word!'); // Display congratulations in pop-up
+            } else {
+                guessInput.value = '';
+            }
+        }
+
+        // Function to get feedback for a guess
+        function getFeedback(guess) {
+            let feedback = '';
+            for (let i = 0; i < secretWord.length; i++) {
+                if (guess[i] === secretWord[i]) {
+                    feedback += 'G'; // Green tile
+                } else if (secretWord.includes(guess[i])) {
+                    feedback += 'Y'; // Yellow tile
+                } else {
+                    feedback += ' ';
+                }
+            }
+            return feedback;
+        }
+
+        // Function to display attempts
+        function displayAttempts() {
+            const attemptsDiv = document.getElementById('attempts');
+            attemptsDiv.innerHTML = '';
+            for (const attempt of attempts) {
+                const attemptBox = document.createElement('div');
+                attemptBox.classList.add('attempt-box');
+                if (attempt.feedback === 'GGGGGG') {
+                    attemptBox.classList.add('correct');
+                } else {
+                    attemptBox.classList.add('wrong');
+                }
+                const guess = attempt.guess;
+                for (let i = 0; i < guess.length; i++) {
+                    const letterSpan = document.createElement('span');
+                    letterSpan.textContent = guess[i];
+                    if (attempt.feedback[i] === 'G') {
+                        letterSpan.classList.add('green');
+                    } else if (attempt.feedback[i] === 'Y') {
+                        letterSpan.classList.add('yellow');
+                    } else {
+                        letterSpan.classList.add('gray');
+                    }
+                    attemptBox.appendChild(letterSpan);
+                }
+                attemptsDiv.appendChild(attemptBox);
+            }
+        }
+
+        // Function to display feedback
+        function displayFeedback(feedback) {
+            const feedbackDiv = document.getElementById('feedback');
+            feedbackDiv.innerHTML = '';
+            for (let i = 0; i < feedback.length; i++) {
+                const span = document.createElement('span');
+                span.classList.add(feedback[i] === 'G' ? 'green' : (feedback[i] === 'Y' ? 'yellow' : 'gray'));
+                span.textContent = feedback[i] === 'G' ? '●' : (feedback[i] === 'Y' ? '○' : '-');
+                feedbackDiv.appendChild(span);
+            }
+        }
+
+        // Function to reset the game
+        function resetGame() {
+            attemptsLeft = 7;
+            attempts = [];
+            secretWord = words[Math.floor(Math.random() * words.length)]; // Select a new random word
+            document.getElementById('triesLeft').textContent = attemptsLeft;
+            displayAttempts();
+            document.getElementById('guess-input').value = '';
+            document.getElementById('feedback').innerHTML = '';
+            enableKeyboard();
+            document.getElementById('guess-input').disabled = false; // Enable input on reset
+        }
+
+        // Function to enable the keyboard
+        function enableKeyboard() {
+            document.getElementById('keyboard').style.pointerEvents = 'auto';
+        }
+
+        // Function to disable the keyboard
+        function disableKeyboard() {
+            document.getElementById('keyboard').style.pointerEvents = 'none';
+        }
+    </script>
+</body>
+</html>

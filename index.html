@@ -1,0 +1,91 @@
+
+<html>
+<head>
+    <title>Lexiletter - Wordle Clone</title>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    background: linear-gradient(to bottom right, #FFEBCD, #FF6347) fixed; /* Fixed gradient background */
+    color: #333; /* Dark gray text */
+    height: 100vh; /* Full screen height */
+}
+
+h1 {
+    margin-top: 80px; /* Adjusted margin-top */
+    font-size: 3.5em;
+    color: #333; /* Dark gray */
+}
+
+.sub-heading {
+    color: #555; /* Dark gray subheading */
+    font-size: 1.8em;
+    margin-bottom: 30px; /* Adjusted margin-bottom */
+}
+
+.button-container {
+    margin-top: 30px;
+}
+
+.button {
+    background-color: #ff6f61; /* Coral color button */
+    border: none;
+    color: white; /* White text */
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 1.2em;
+    margin: 10px;
+    cursor: pointer;
+    border-radius: 25px; /* Rounded corners */
+    transition: background-color 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow */
+}
+
+.button:hover {
+    background-color: #ff9472; /* Lighter coral on hover */
+}
+
+.instructions {
+    text-align: justify; /* Justify align instructions */
+    margin-top: 50px; /* Adjusted margin-top */
+    padding: 0 20%; /* Added padding to provide space */
+}
+
+.instructions h2 {
+    color: #333; /* Dark gray */
+    font-size: 1.8em;
+    margin-bottom: 20px; /* Adjusted margin-bottom */
+}
+
+.instructions p {
+    color: #555; /* Dark gray */
+    font-size: 1.2em;
+    margin-bottom: 10px; /* Adjusted margin-bottom */
+}
+
+    </style>
+</head>
+<body>
+    <h1>LexiLetter</h1>
+    <p class="sub-heading">Can you guess the word?</p>
+    <div class="button-container">
+        <a href="letter4.html" class="button">Play with 4 Letters</a>
+        <a href="letter5.html" class="button">Play with 5 Letters</a>
+        <a href="letter6.html" class="button">Play with 6 Letters</a>
+        <a href="letter7.html" class="button">Play with 7 Letters</a>
+    </div>
+    <div class="instructions">
+        <h2>How to Play:</h2>
+        <p>1. Select the mode you want to play.</p>
+        <p>2. Try to guess the word by entering your guesses in the input field.</p>
+        <p>3. You have a limited number of attempts.</p>
+        <p>4. Green tiles indicate correct letters in the correct positions.</p>
+        <p>5. Yellow tiles indicate correct letters in the wrong positions.</p>
+        <p>6. Keep guessing until you either solve the word or run out of attempts!</p>
+    </div>
+</body>
+</html>

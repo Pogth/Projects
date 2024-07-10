@@ -1,0 +1,195 @@
+
+<html>
+<head>
+    <title>LexiLetter - 4 Letter</title>
+    <link rel="stylesheet" href="styles.css">
+
+</head>
+<body>
+    <div class="navigation-bar">
+        <h1>4-letter LexiLetter - Tries Left: <span id="triesLeft">5</span></h1>
+        <button class="reset-button" onclick="resetGame()">Reset</button>
+    </div>
+    <h1>LexiLetter</h1>
+    <div class="keyboard" id="keyboard">
+        <div class="row">
+            <div class="key" onclick="guessLetter('Q')">Q</div>
+            <div class="key" onclick="guessLetter('W')">W</div>
+            <div class="key" onclick="guessLetter('E')">E</div>
+            <div class="key" onclick="guessLetter('R')">R</div>
+            <div class="key" onclick="guessLetter('T')">T</div>
+            <div class="key" onclick="guessLetter('Y')">Y</div>
+            <div class="key" onclick="guessLetter('U')">U</div>
+            <div class="key" onclick="guessLetter('I')">I</div>
+            <div class="key" onclick="guessLetter('O')">O</div>
+            <div class="key" onclick="guessLetter('P')">P</div>
+        </div>
+        <div class="row">
+            <div class="key" onclick="guessLetter('A')">A</div>
+            <div class="key" onclick="guessLetter('S')">S</div>
+            <div class="key" onclick="guessLetter('D')">D</div>
+            <div class="key" onclick="guessLetter('F')">F</div>
+            <div class="key" onclick="guessLetter('G')">G</div>
+            <div class="key" onclick="guessLetter('H')">H</div>
+            <div class="key" onclick="guessLetter('J')">J</div>
+            <div class="key" onclick="guessLetter('K')">K</div>
+            <div class="key" onclick="guessLetter('L')">L</div>
+        </div>
+        <div class="row">
+            <div class="key" onclick="guessLetter('Z')">Z</div>
+            <div class="key" onclick="guessLetter('X')">X</div>
+            <div class="key" onclick="guessLetter('C')">C</div>
+            <div class="key" onclick="guessLetter('V')">V</div>
+            <div class="key" onclick="guessLetter('B')">B</div>
+            <div class="key" onclick="guessLetter('N')">N</div>
+            <div class="key" onclick="guessLetter('M')">M</div>
+        </div>
+    </div>
+    <div class="guessing-box">
+        Guess: <input type="text" id="guess-input" maxlength="4" size="4" oninput="validateInput()">
+        <br>
+        <br>
+        <button class="reset-button" onclick="submitGuess()">Guess</button>
+    </div>
+    <div class="attempts" id="attempts"></div>
+    <div class="feedback" id="feedback"></div>
+    <button class="reset-button" onclick="goHome()">Home</button>
+    <script>
+        // Define the list of words here
+        const words = ["able","acid","aged","also","area","army","away","baby","back","ball","band","bank","base","bath","bear","beat","been","beer","bell","belt","best","bill","bird","blow","blue","boat","body","bomb","bond","bone","book","boom","born","boss","both","bowl","bulk","burn","bush","busy","call","calm","came","camp","card","care","case","cash","cast","cell","chat","chip","city","club","coal","coat","code","cold","come","cook","cool","cope","copy","CORE","cost","crew","crop","dark","data","date","dawn","days","dead","deal","dean","dear","debt","deep","deny","desk","dial","dick","diet","disc","disk","does","done","door","dose","down","draw","drew","drop","drug","dual","duke","dust","duty","each","earn","ease","east","easy","edge","else","even","ever","evil","exit","face","fact","fail","fair","fall","farm","fast","fate","fear","feed","feel","feet","fell","felt","file","fill","film","find","fine","fire","firm","fish","five","flat","flow","food","foot","ford","form","fort","four","free","from","fuel","full","fund","gain","game","gate","gave","gear","gene","gift","girl","give","glad","goal","goes","gold","golf","gone","good","gray","grew","grey","grow","gulf","hair","half","hall","hand","hang","hard","harm","hate","have","head","hear","heat","held","hell","help","here","hero","high","hill","hire","hold","hole","holy","home","hope","host","hour","huge","hung","hunt","hurt","idea","inch","into","iron","item","jack","jane","jean","john","join","jump","jury","just","keen","keep","kent","kept","kick","kill","kind","king","knee","knew","know","lack","lady","laid","lake","land","lane","last","late","lead","left","less","life","lift","like","line","link","list","live","load","loan","lock","logo","long","look","lord","lose","loss","lost","love","luck","made","mail","main","make","male","many","Mark","mass","matt","meal","mean","meat","meet","menu","mere","mike","mile","milk","mill","mind","mine","miss","mode","mood","moon","more","most","move","much","must","name","navy","near","neck","need","news","next","nice","nick","nine","none","nose","note","okay","once","only","onto","open","oral","over","pace","pack","page","paid","pain","pair","palm","park","part","pass","past","path","peak","pick","pink","pipe","plan","play","plot","plug","plus","poll","pool","poor","port","post","pull","pure","push","race","rail","rain","rank","rare","rate","read","real","rear","rely","rent","rest","rice","rich","ride","ring","rise","risk","road","rock","role","roll","roof","room","root","rose","rule","rush","ruth","safe","said","sake","sale","salt","same","sand","save","seat","seed","seek","seem","seen","self","sell","send","sent","sept","ship","shop","shot","show","shut","sick","side","sign","site","size","skin","slip","slow","snow","soft","soil","sold","sole","some","song","soon","sort","soul","spot","star","stay","step","stop","such","suit","sure","take","tale","talk","tall","tank","tape","task","team","tech","tell","tend","term","test","text","than","that","them","then","they","thin","this","thus","till","time","tiny","told","toll","tone","tony","took","tool","tour","town","tree","trip","true","tune","turn","twin","type","unit","upon","used","user","vary","vast","very","vice","view","vote","wage","wait","wake","walk","wall","want","ward","warm","wash","wave","ways","weak","wear","week","well","went","were","west","what","when","whom","wide","wife","wild","will","wind","wine","wing","wire","wise","wish","with","wood","word","wore","work","yard","yeah","year","your","zero","zone"
+]; 
+
+        // Select a random word from the list
+        let secretWord = words[Math.floor(Math.random() * words.length)];
+        secretWord = secretWord.toUpperCase();
+        const attemptsDisplay = document.getElementById('attempts');
+        const feedbackDisplay = document.getElementById('feedback');
+        let attemptsLeft = 5;
+        let attempts = [];
+
+        function validateInput() {
+            const guessInput = document.getElementById('guess-input');
+            guessInput.value = guessInput.value.toUpperCase().replace(/[^A-Z]/g, '').slice(0, 4);
+        }
+
+        function guessLetter(letter) {
+            const guessInput = document.getElementById('guess-input');
+            guessInput.value += letter;
+            validateInput();
+        }
+
+        function goHome(){
+            window.location.href = "homepage.html"; 
+        }
+
+        function submitGuess() {
+            const guessInput = document.getElementById('guess-input');
+            const guess = guessInput.value.toUpperCase();
+            if (guess.length !== 4 || !/^[A-Z]+$/.test(guess)) {
+                alert('Please enter a valid 4-letter guess.');
+                return;
+            }
+
+            const feedback = getFeedback(guess);
+            attempts.push({ guess: guess, feedback: feedback });
+            displayAttempts();
+            displayFeedback(feedback);
+            attemptsLeft--;
+
+            document.getElementById('triesLeft').textContent = attemptsLeft;
+
+            if (attemptsLeft === 0) {
+                displayFeedback('Game Over! The word was: ' + secretWord);
+                disableKeyboard();
+                guessInput.disabled = true; r
+                alert('Game Over! The word was: ' + secretWord); 
+            } else if (feedback === 'GGGG') {
+                displayFeedback('Congratulations! You guessed the word!');
+                disableKeyboard();
+                guessInput.disabled = true; 
+                alert('Congratulations! You guessed the word!'); 
+            } else {
+                guessInput.value = '';
+            }
+        }
+
+        function getFeedback(guess) {
+            let feedback = '';
+            for (let i = 0; i < secretWord.length; i++) {
+                if (guess[i] === secretWord[i]) {
+                    feedback += 'G'; 
+                } else if (secretWord.includes(guess[i])) {
+                    feedback += 'Y'; 
+                } else {
+                    feedback += ' ';
+                }
+            }
+            return feedback;
+        }
+
+        function displayAttempts() {
+            const attemptsDiv = document.getElementById('attempts');
+            attemptsDiv.innerHTML = '';
+            for (const attempt of attempts) {
+                const attemptBox = document.createElement('div');
+                attemptBox.classList.add('attempt-box');
+                if (attempt.feedback === 'GGGGG') {
+                    attemptBox.classList.add('correct');
+                } else {
+                    attemptBox.classList.add('wrong');
+                }
+                const guess = attempt.guess;
+                for (let i = 0; i < guess.length; i++) {
+                    const letterSpan = document.createElement('span');
+                    letterSpan.textContent = guess[i];
+                    if (attempt.feedback[i] === 'G') {
+                        letterSpan.classList.add('green');
+                    } else if (attempt.feedback[i] === 'Y') {
+                        letterSpan.classList.add('yellow');
+                    } else {
+                        letterSpan.classList.add('gray');
+                    }
+                    attemptBox.appendChild(letterSpan);
+                }
+                attemptsDiv.appendChild(attemptBox);
+            }
+        }
+
+// Function to display feedback
+function displayFeedback(feedback) {
+            const feedbackDiv = document.getElementById('feedback');
+            feedbackDiv.innerHTML = '';
+            for (let i = 0; i < feedback.length; i++) {
+                const span = document.createElement('span');
+                span.classList.add(feedback[i] === 'G' ? 'green' : (feedback[i] === 'Y' ? 'yellow' : 'gray'));
+                span.textContent = feedback[i] === 'G' ? '●' : (feedback[i] === 'Y' ? '○' : '-');
+                feedbackDiv.appendChild(span);
+            }
+        }
+
+        // Function to reset the game
+        function resetGame() {
+            attemptsLeft = 5;
+            attempts = [];
+            secretWord = words[Math.floor(Math.random() * words.length)]; // Select a new random word
+            document.getElementById('triesLeft').textContent = attemptsLeft;
+            displayAttempts();
+            document.getElementById('guess-input').value = '';
+            document.getElementById('feedback').innerHTML = '';
+            enableKeyboard();
+            document.getElementById('guess-input').disabled = false; 
+            location.reload(); 
+        }
+
+        // Function to enable the keyboard
+        function enableKeyboard() {
+            document.getElementById('keyboard').style.pointerEvents = 'auto';
+        }
+
+        // Function to disable the keyboard
+        function disableKeyboard() {
+            document.getElementById('keyboard').style.pointerEvents = 'none';
+        }
+    </script>
+</body>
+</html>
